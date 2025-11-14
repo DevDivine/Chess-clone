@@ -104,17 +104,22 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    if (isKingInCheck(currentPlayer)) {
+    if (isKingInCheck("w") || isKingInCheck("b")) {
       sounds.check.currentTime = 0;
       sounds.check.play();
-
-      const kingPos = findKing(currentPlayer);
-      if (kingPos) {
-        const [kr, kc] = kingPos;
-        const el = document.querySelector(`.square[data-row="${kr}"][data-col="${kc}"]`);
-        if (el) el.classList.add('king-check');
-      }
     }
+
+    ["w", "b"].forEach(color => {
+      if (isKingInCheck(color)) {
+        const kingPos = findKing(color);
+        if (kingPos) {
+          const [kr, kc] = kingPos;
+          const el = document.querySelector(`.square[data-row="${kr}"][data-col="${kc}"]`);
+          if (el) el.classList.add("king-check");
+        }
+      }
+    });
+
 
     if (selected) {
       const sqEl = document.querySelector(`.square[data-row="${selected.r}"][data-col="${selected.c}"]`);
